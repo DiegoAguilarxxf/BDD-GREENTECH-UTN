@@ -968,6 +968,7 @@ CREATE TABLE graduados_impacto (
 
 COMMENT ON TABLE graduados_impacto IS 'Seguimiento de graduados para medir el porcentaje de inserción en "empleos verdes".';
 
+<<<<<<< HEAD
 COMMIT;
 
 
@@ -997,3 +998,6 @@ CREATE TABLE evidencias (
     CONSTRAINT fk_evid_metrica FOREIGN KEY (id_metrica) REFERENCES metricas(id_metrica)
 );
 COMMENT ON TABLE evidencias IS 'Almacena metadatos de los archivos subidos como evidencia.';
+=======
+COMMIT;
+>>>>>>> 6f87903fb97fac013dc1a0790d2a5bad46678045
