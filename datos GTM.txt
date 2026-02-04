@@ -1,0 +1,1195 @@
+-- ================================
+-- INSERTS TABLA PERIODOS
+-- UI GREENMETRIC - UTN
+-- ================================
+
+INSERT INTO periodos (anio, nombre, descripcion, estado, fecha_inicio, fecha_fin, fecha_cierre)
+VALUES (2021, 'UI GreenMetric 2021', 'Evaluación posicionamiento Top 5 Ecuador.', 'CERRADO', DATE '2021-01-01', DATE '2021-12-31', DATE '2021-12-31');
+
+INSERT INTO periodos (anio, nombre, descripcion, estado, fecha_inicio, fecha_fin, fecha_cierre)
+VALUES (2022, 'UI GreenMetric 2022', 'Consolidación de investigación ($203k avg).', 'CERRADO', DATE '2022-01-01', DATE '2022-12-31', DATE '2022-12-31');
+
+INSERT INTO periodos (anio, nombre, descripcion, estado, fecha_inicio, fecha_fin, fecha_cierre)
+VALUES (2023, 'UI GreenMetric 2023', 'Reporte 2023: 11 proyectos comunitarios y mejora en infraestructura.', 'CERRADO', DATE '2023-01-01', DATE '2023-12-31', DATE '2023-12-31');
+
+INSERT INTO periodos (anio, nombre, descripcion, estado, fecha_inicio, fecha_fin, fecha_cierre)
+VALUES (2024, 'UI GreenMetric 2024', 'Periodo ACTIVO. Datos del reporte 2024: $376k Inv, 210 Cursos.', 'EN_EVALUACION', DATE '2024-01-01', DATE '2024-12-31', NULL);
+
+COMMIT;
+
+-- Módulo 2 corregido: INSERTs usando subqueries basadas en códigos (de la tabla de indicadores proporcionada)
+-- Asumiendo que las categorías tienen códigos: EC (Energía), ED (Educación), SI (Infraestructura), TR (Transporte), WR (Agua/Residuos)
+-- Y una sexta categoría adicional (ajusta si es necesario, e.g., si hay una categoría extra como 'Otra').
+-- Los indicadores usan códigos como 'EC1', 'EC2', etc.
+-- Las métricas asumen IDs basados en indicadores (ajusta si id_metrica no coincide; usa subqueries si es posible).
+
+-- Módulo 2 corregido: INSERTs usando subqueries basadas en nombres de métricas (de la tabla proporcionada)
+-- Asumiendo que id_metrica se obtiene de la tabla metricas usando nombre_metrica o id_indicador.
+-- Los primeros 5 INSERTs corresponden a métricas de EC1, EC2, EC3, EC4, EC5 (ajusta si no coincide).
+
+/* =========================================================
+   1. ESTADOS DE EVALUACION
+   ========================================================= */
+
+INSERT INTO estados_evaluacion (codigo, nombre, descripcion)
+VALUES ('BORRADOR', 'Borrador', 'Métrica registrada pero aún no validada');
+
+INSERT INTO estados_evaluacion (codigo, nombre, descripcion)
+VALUES ('VALIDADA', 'Validada', 'Métrica revisada y validada por el evaluador');
+
+INSERT INTO estados_evaluacion (codigo, nombre, descripcion)
+VALUES ('OBSERVADA', 'Observada', 'Métrica con observaciones pendientes');
+
+INSERT INTO estados_evaluacion (codigo, nombre, descripcion)
+VALUES ('CERRADA', 'Cerrada', 'Métrica cerrada sin posibilidad de modificación');
+
+/* =========================================================
+   2. RESULTADOS POR CATEGORIAS (Periodo 2023)
+   ========================================================= */
+
+INSERT INTO resultados_categorias (id_categoria, id_periodo, puntaje_maximo, puntaje_obtenido, porcentaje_logro, posicion_nacional, posicion_global, fecha_creacion)
+VALUES ((SELECT id_categoria FROM categorias WHERE codigo_ref = 'EC'), (SELECT id_periodo FROM periodos WHERE anio = 2023), 1500, 1120, 74.67, 6, 420, CURRENT_TIMESTAMP);
+
+INSERT INTO resultados_categorias (id_categoria, id_periodo, puntaje_maximo, puntaje_obtenido, porcentaje_logro, posicion_nacional, posicion_global, fecha_creacion)
+VALUES ((SELECT id_categoria FROM categorias WHERE codigo_ref = 'ED'), (SELECT id_periodo FROM periodos WHERE anio = 2023), 1200, 980, 81.67, 4, 310, CURRENT_TIMESTAMP);
+
+INSERT INTO resultados_categorias (id_categoria, id_periodo, puntaje_maximo, puntaje_obtenido, porcentaje_logro, posicion_nacional, posicion_global, fecha_creacion)
+VALUES ((SELECT id_categoria FROM categorias WHERE codigo_ref = 'SI'), (SELECT id_periodo FROM periodos WHERE anio = 2023), 1800, 1340, 74.44, 8, 510, CURRENT_TIMESTAMP);
+
+INSERT INTO resultados_categorias (id_categoria, id_periodo, puntaje_maximo, puntaje_obtenido, porcentaje_logro, posicion_nacional, posicion_global, fecha_creacion)
+VALUES ((SELECT id_categoria FROM categorias WHERE codigo_ref = 'TR'), (SELECT id_periodo FROM periodos WHERE anio = 2023), 1000, 720, 72.00, 10, 600, CURRENT_TIMESTAMP);
+
+INSERT INTO resultados_categorias (id_categoria, id_periodo, puntaje_maximo, puntaje_obtenido, porcentaje_logro, posicion_nacional, posicion_global, fecha_creacion)
+VALUES ((SELECT id_categoria FROM categorias WHERE codigo_ref = 'WR'), (SELECT id_periodo FROM periodos WHERE anio = 2023), 800, 610, 76.25, 7, 455, CURRENT_TIMESTAMP);
+
+-- Sexta categoría: Asumiendo una adicional (e.g., 'Otra' o ajusta el código_ref si existe)
+INSERT INTO resultados_categorias (id_categoria, id_periodo, puntaje_maximo, puntaje_obtenido, porcentaje_logro, posicion_nacional, posicion_global, fecha_creacion)
+VALUES ((SELECT id_categoria FROM categorias WHERE codigo_ref = 'OTRA'), (SELECT id_periodo FROM periodos WHERE anio = 2023), 900, 700, 77.78, 5, 380, CURRENT_TIMESTAMP);
+
+/* =========================================================
+   3. RESULTADOS POR INDICADORES (Periodo 2023)
+   ========================================================= */
+
+INSERT INTO resultados_indicadores (id_indicador, id_periodo, puntaje_maximo, puntaje_obtenido, porcentaje_logro, fecha_creacion)
+VALUES ((SELECT id_indicador FROM indicadores WHERE codigo_indicador = 'EC1'), (SELECT id_periodo FROM periodos WHERE anio = 2023), 300, 220, 73.33, CURRENT_TIMESTAMP);
+
+INSERT INTO resultados_indicadores (id_indicador, id_periodo, puntaje_maximo, puntaje_obtenido, porcentaje_logro, fecha_creacion)
+VALUES ((SELECT id_indicador FROM indicadores WHERE codigo_indicador = 'EC2'), (SELECT id_periodo FROM periodos WHERE anio = 2023), 400, 330, 82.50, CURRENT_TIMESTAMP);
+
+INSERT INTO resultados_indicadores (id_indicador, id_periodo, puntaje_maximo, puntaje_obtenido, porcentaje_logro, fecha_creacion)
+VALUES ((SELECT id_indicador FROM indicadores WHERE codigo_indicador = 'EC3'), (SELECT id_periodo FROM periodos WHERE anio = 2023), 350, 260, 74.29, CURRENT_TIMESTAMP);
+
+INSERT INTO resultados_indicadores (id_indicador, id_periodo, puntaje_maximo, puntaje_obtenido, porcentaje_logro, fecha_creacion)
+VALUES ((SELECT id_indicador FROM indicadores WHERE codigo_indicador = 'EC4'), (SELECT id_periodo FROM periodos WHERE anio = 2023), 250, 180, 72.00, CURRENT_TIMESTAMP);
+
+INSERT INTO resultados_indicadores (id_indicador, id_periodo, puntaje_maximo, puntaje_obtenido, porcentaje_logro, fecha_creacion)
+VALUES ((SELECT id_indicador FROM indicadores WHERE codigo_indicador = 'EC5'), (SELECT id_periodo FROM periodos WHERE anio = 2023), 200, 160, 80.00, CURRENT_TIMESTAMP);
+
+/* =========================================================
+   4. RESULTADOS POR METRICAS (Periodo 2023)
+   ========================================================= */
+
+-- Nota: Ahora usando subqueries para id_metrica basadas en nombre_metrica de la tabla proporcionada.
+-- Asumiendo que los primeros 5 corresponden a métricas específicas de EC1-EC5.
+
+INSERT INTO resultados_metricas (id_metrica, id_periodo, id_estado, valor_real_utn, puntaje_obtenido_met, fecha_creacion, actualizado_el)
+VALUES ((SELECT id_metrica FROM metricas WHERE nombre_metrica LIKE '%EC1 Energy efficient appliances usage%'), (SELECT id_periodo FROM periodos WHERE anio = 2023), (SELECT id_estado FROM estados_evaluacion WHERE codigo = 'VALIDADA'), 45.5, 180, CURRENT_TIMESTAMP, NULL);
+
+INSERT INTO resultados_metricas (id_metrica, id_periodo, id_estado, valor_real_utn, puntaje_obtenido_met, fecha_creacion, actualizado_el)
+VALUES ((SELECT id_metrica FROM metricas WHERE nombre_metrica LIKE '%Total campus smart building area%'), (SELECT id_periodo FROM periodos WHERE anio = 2023), (SELECT id_estado FROM estados_evaluacion WHERE codigo = 'BORRADOR'), 18.3, 150, CURRENT_TIMESTAMP, NULL);
+
+INSERT INTO resultados_metricas (id_metrica, id_periodo, id_estado, valor_real_utn, puntaje_obtenido_met, fecha_creacion, actualizado_el)
+VALUES ((SELECT id_metrica FROM metricas WHERE nombre_metrica LIKE '%EC3 Number of renewable energy sources on campus%'), (SELECT id_periodo FROM periodos WHERE anio = 2023), (SELECT id_estado FROM estados_evaluacion WHERE codigo = 'BORRADOR'), 62, 210, CURRENT_TIMESTAMP, NULL);
+
+INSERT INTO resultados_metricas (id_metrica, id_periodo, id_estado, valor_real_utn, puntaje_obtenido_met, fecha_creacion, actualizado_el)
+VALUES ((SELECT id_metrica FROM metricas WHERE nombre_metrica LIKE '%Electricity usage per year%'), (SELECT id_periodo FROM periodos WHERE anio = 2023), (SELECT id_estado FROM estados_evaluacion WHERE codigo = 'OBSERVADA'), 12.5, 120, CURRENT_TIMESTAMP, NULL);
+
+INSERT INTO resultados_metricas (id_metrica, id_periodo, id_estado, valor_real_utn, puntaje_obtenido_met, fecha_creacion, actualizado_el)
+VALUES ((SELECT id_metrica FROM metricas WHERE nombre_metrica LIKE '%EC5 Ratio of renewable energy production divided by total energy usage%'), (SELECT id_periodo FROM periodos WHERE anio = 2023), (SELECT id_estado FROM estados_evaluacion WHERE codigo = 'VALIDADA'), 78, 250, CURRENT_TIMESTAMP, NULL);
+
+COMMIT;
+
+/* =========================================================
+   5. RESULTADOS GENERALES (Periodo 2023)
+   ========================================================= */
+
+
+INSERT INTO resultados_generales (id_periodo, puntaje_total, posicion_nacional, posicion_global, total_universidades)
+VALUES ((SELECT id_periodo FROM periodos WHERE anio = 2023), 5460, 6, 420, 1180);
+
+COMMIT;
+
+/*******************************************************************************
+ SISTEMA INTEGRAL GREEN TECH METRICS - UTN
+ MODULO 1: NÚCLEO INSTITUCIONAL (ESTRUCTURA FÍSICA Y GEOGRÁFICA)
+ *******************************************************************************/
+
+/* =========================================================
+   1. UNIVERSIDAD
+   ========================================================= */
+INSERT INTO universidades (nombre, siglas, sitio_web, logo_url, pais, ciudad_principal, fecha_fundacion)
+VALUES ('Universidad Técnica del Norte', 'UTN', 'https://www.utn.edu.ec', 'https://www.utn.edu.ec/logo.png', 'Ecuador', 'Ibarra', DATE '1986-07-18');
+
+/* =========================================================
+   2. CAMPUS
+   ========================================================= */
+INSERT INTO campus (id_universidad, nombre, direccion, latitud, longitud, area_total_m2, area_bosque_m2, area_edificada_m2, clima_tipo)
+VALUES ((SELECT id_universidad FROM universidades WHERE siglas = 'UTN'), 'Campus El Olivo', 'Av. 17 de Julio 5-21, Ibarra', 0.3515, -78.1224, 420000, 165000, 190000, 'Templado Andino');
+
+INSERT INTO campus (id_universidad, nombre, direccion, latitud, longitud, area_total_m2, area_bosque_m2, area_edificada_m2, clima_tipo)
+VALUES ((SELECT id_universidad FROM universidades WHERE siglas = 'UTN'), 'Granjas Experimentales', 'Yuyucocha / Huaycopungo', 0.3200, -78.1100, 500000, 400000, 5000, 'Valle');
+
+/* =========================================================
+   3. EDIFICIOS (COMPLETO)
+   ========================================================= */
+
+INSERT INTO edificios (id_campus, nombre, codigo, pisos, area_m2, anio_construccion, es_acondicionado, estado_conservacion, fecha_creacion)
+VALUES ((SELECT id_campus FROM campus WHERE nombre LIKE '%Ibarra%'), 'Edificio Administrativo Central', 'ADM-01', 3, 1800, 2005, 'N', 'Bueno', CURRENT_TIMESTAMP);
+
+INSERT INTO edificios (id_campus, nombre, codigo, pisos, area_m2, anio_construccion, es_acondicionado, estado_conservacion, fecha_creacion)
+VALUES ((SELECT id_campus FROM campus WHERE nombre LIKE '%Ibarra%'), 'Facultad de Ingeniería en Ciencias Aplicadas (FICA)', 'FICA-01', 4, 2200, 2010, 'S', 'Muy Bueno', CURRENT_TIMESTAMP);
+
+INSERT INTO edificios (id_campus, nombre, codigo, pisos, area_m2, anio_construccion, es_acondicionado, estado_conservacion, fecha_creacion)
+VALUES ((SELECT id_campus FROM campus WHERE nombre LIKE '%Ibarra%'), 'Facultad de Ciencias Administrativas y Económicas (FCAE)', 'FCAE-01', 3, 2000, 2008, 'N', 'Bueno', CURRENT_TIMESTAMP);
+
+INSERT INTO edificios (id_campus, nombre, codigo, pisos, area_m2, anio_construccion, es_acondicionado, estado_conservacion, fecha_creacion)
+VALUES ((SELECT id_campus FROM campus WHERE nombre LIKE '%Ibarra%'), 'Facultad de Educación Ciencia y Tecnología (FECYT)', 'FECYT-01', 3, 1900, 2009, 'N', 'Bueno', CURRENT_TIMESTAMP);
+
+INSERT INTO edificios (id_campus, nombre, codigo, pisos, area_m2, anio_construccion, es_acondicionado, estado_conservacion, fecha_creacion)
+VALUES ((SELECT id_campus FROM campus WHERE nombre LIKE '%Ibarra%'), 'Facultad de Ciencias de la Salud', 'SALUD-01', 4, 2100, 2011, 'S', 'Muy Bueno', CURRENT_TIMESTAMP);
+
+INSERT INTO edificios (id_campus, nombre, codigo, pisos, area_m2, anio_construccion, es_acondicionado, estado_conservacion, fecha_creacion)
+VALUES ((SELECT id_campus FROM campus WHERE nombre LIKE '%Ibarra%'), 'Biblioteca Central UTN', 'BIB-01', 2, 1500, 2012, 'S', 'Excelente', CURRENT_TIMESTAMP);
+
+INSERT INTO edificios (id_campus, nombre, codigo, pisos, area_m2, anio_construccion, es_acondicionado, estado_conservacion, fecha_creacion)
+VALUES ((SELECT id_campus FROM campus WHERE nombre LIKE '%Ibarra%'), 'Centro de Investigación y Vinculación', 'CIV-01', 2, 1300, 2014, 'N', 'Muy Bueno', CURRENT_TIMESTAMP);
+
+INSERT INTO edificios (id_campus, nombre, codigo, pisos, area_m2, anio_construccion, es_acondicionado, estado_conservacion, fecha_creacion)
+VALUES ((SELECT id_campus FROM campus WHERE nombre LIKE '%Ibarra%'), 'Coliseo Universitario', 'DEP-01', 1, 2800, 2007, 'N', 'Bueno', CURRENT_TIMESTAMP);
+
+INSERT INTO edificios (id_campus, nombre, codigo, pisos, area_m2, anio_construccion, es_acondicionado, estado_conservacion, fecha_creación)
+VALUES ((SELECT id_campus FROM campus WHERE nombre = 'Campus El Olivo'), 'Posgrado', 'POS-01', 4, 2000, 2015, 'S', 'Excelente', CURRENT_TIMESTAMP);
+
+INSERT INTO edificios (id_campus, nombre, codigo, pisos, area_m2, anio_construccion, es_acondicionado, estado_conservacion, fecha_creacion)
+VALUES ((SELECT id_campus FROM campus WHERE nombre LIKE '%Ibarra%'), 'Comedor Universitario', 'COM-01', 1, 1200, 2006, 'N', 'Regular', CURRENT_TIMESTAMP);
+
+/* =========================================================
+   4. AREAS (COMPLETO Y COHERENTE)
+   ========================================================= */
+
+INSERT INTO areas (id_edificio, nombre, tipo_area, capacidad_personas, pisos_ocupados, area_m2, descripcion, fecha_creacion)
+VALUES ((SELECT id_edificio FROM edificios WHERE codigo = 'ADM-01'), 'Rectorado', 'Administrativa', 15, 2, 120, 'Dirección institucional', CURRENT_TIMESTAMP);
+
+INSERT INTO areas (id_edificio, nombre, tipo_area, capacidad_personas, pisos_ocupados, area_m2, descripcion, fecha_creacion)
+VALUES ((SELECT id_edificio FROM edificios WHERE codigo = 'ADM-01'), 'Talento Humano', 'Administrativa', 12, 1, 90, 'Gestión de personal', CURRENT_TIMESTAMP);
+
+INSERT INTO areas (id_edificio, nombre, tipo_area, capacidad_personas, pisos_ocupados, area_m2, descripcion, fecha_creacion)
+VALUES ((SELECT id_edificio FROM edificios WHERE codigo = 'ADM-01'), 'Dirección Financiera', 'Administrativa', 18, 1, 140, 'Presupuesto y pagos', CURRENT_TIMESTAMP);
+
+INSERT INTO areas (id_edificio, nombre, tipo_area, capacidad_personas, pisos_ocupados, area_m2, descripcion, fecha_creacion)
+VALUES ((SELECT id_edificio FROM edificios WHERE codigo = 'FICA-01'), 'Laboratorio de Redes', 'Laboratorio', 30, 1, 180, 'Infraestructura CISCO', CURRENT_TIMESTAMP);
+
+INSERT INTO areas (id_edificio, nombre, tipo_area, capacidad_personas, pisos_ocupados, area_m2, descripcion, fecha_creacion)
+VALUES ((SELECT id_edificio FROM edificios WHERE codigo = 'FICA-01'), 'Laboratorio de Software', 'Laboratorio', 35, 2, 200, 'Desarrollo y testing', CURRENT_TIMESTAMP);
+
+INSERT INTO areas (id_edificio, nombre, tipo_area, capacidad_personas, pisos_ocupados, area_m2, descripcion, fecha_creacion)
+VALUES ((SELECT id_edificio FROM edificios WHERE codigo = 'FICA-01'), 'Aula Magna FICA', 'Académica', 120, 3, 250, 'Eventos académicos', CURRENT_TIMESTAMP);
+
+INSERT INTO areas (id_edificio, nombre, tipo_area, capacidad_personas, pisos_ocupados, area_m2, descripcion, fecha_creacion)
+VALUES ((SELECT id_edificio FROM edificios WHERE codigo = 'FCAE-01'), 'Aula 101', 'Académica', 40, 1, 90, 'Clases teóricas', CURRENT_TIMESTAMP);
+
+INSERT INTO areas (id_edificio, nombre, tipo_area, capacidad_personas, pisos_ocupados, area_m2, descripcion, fecha_creacion)
+VALUES ((SELECT id_edificio FROM edificios WHERE codigo = 'FCAE-01'), 'Laboratorio de Contabilidad', 'Laboratorio', 35, 2, 110, 'Simulación contable', CURRENT_TIMESTAMP);
+
+INSERT INTO areas (id_edificio, nombre, tipo_area, capacidad_personas, pisos_ocupados, area_m2, descripcion, fecha_creacion)
+VALUES ((SELECT id_edificio FROM edificios WHERE codigo = 'FECYT-01'), 'Laboratorio de Física', 'Laboratorio', 25, 1, 160, 'Prácticas experimentales', CURRENT_TIMESTAMP);
+
+INSERT INTO areas (id_edificio, nombre, tipo_area, capacidad_personas, pisos_ocupados, area_m2, descripcion, fecha_creacion)
+VALUES ((SELECT id_edificio FROM edificios WHERE codigo = 'FECYT-01'), 'Aula Pedagógica', 'Académica', 45, 2, 100, 'Didáctica educativa', CURRENT_TIMESTAMP);
+
+INSERT INTO areas (id_edificio, nombre, tipo_area, capacidad_personas, pisos_ocupados, area_m2, descripcion, fecha_creacion)
+VALUES ((SELECT id_edificio FROM edificios WHERE codigo = 'SALUD-01'), 'Laboratorio de Enfermería', 'Laboratorio', 30, 1, 170, 'Simulación clínica', CURRENT_TIMESTAMP);
+
+INSERT INTO areas (id_edificio, nombre, tipo_area, capacidad_personas, pisos_ocupados, area_m2, descripcion, fecha_creacion)
+VALUES ((SELECT id_edificio FROM edificios WHERE codigo = 'SALUD-01'), 'Consultorio Universitario', 'Académica', 10, 1, 80, 'Atención básica', CURRENT_TIMESTAMP);
+
+INSERT INTO areas (id_edificio, nombre, tipo_area, capacidad_personas, pisos_ocupados, area_m2, descripcion, fecha_creacion)
+VALUES ((SELECT id_edificio FROM edificios WHERE codigo = 'BIB-01'), 'Sala de Lectura General', 'Académica', 200, 1, 400, 'Zona silenciosa', CURRENT_TIMESTAMP);
+
+INSERT INTO areas (id_edificio, nombre, tipo_area, capacidad_personas, pisos_ocupados, area_m2, descripcion, fecha_creacion)
+VALUES ((SELECT id_edificio FROM edificios WHERE codigo = 'BIB-01'), 'Centro de Recursos Digitales', 'Académica', 60, 2, 180, 'Bases científicas', CURRENT_TIMESTAMP);
+
+INSERT INTO areas (id_edificio, nombre, tipo_area, capacidad_personas, pisos_ocupados, area_m2, descripcion, fecha_creacion)
+VALUES ((SELECT id_edificio FROM edificios WHERE codigo = 'CIV-01'), 'Laboratorio de Innovación', 'Laboratorio', 25, 1, 150, 'Prototipado', CURRENT_TIMESTAMP);
+
+INSERT INTO areas (id_edificio, nombre, tipo_area, capacidad_personas, pisos_ocupados, area_m2, descripcion, fecha_creacion)
+VALUES ((SELECT id_edificio FROM edificios WHERE codigo = 'CIV-01'), 'Oficina de Vinculación', 'Administrativa', 12, 2, 90, 'Relación con la comunidad', CURRENT_TIMESTAMP);
+
+INSERT INTO areas (id_edificio, nombre, tipo_area, capacidad_personas, pisos_ocupados, area_m2, descripcion, fecha_creacion)
+VALUES ((SELECT id_edificio FROM edificios WHERE codigo = 'DEP-01'), 'Cancha Multiuso', 'Espacio Deportivo', 300, 1, 900, 'Uso estudiantil', CURRENT_TIMESTAMP);
+
+INSERT INTO areas (id_edificio, nombre, tipo_area, capacidad_personas, pisos_ocupados, area_m2, descripcion, fecha_creacion)
+VALUES ((SELECT id_edificio FROM edificios WHERE codigo = 'COM-01'), 'Área de Alimentación', 'Servicios', 250, 1, 600, 'Servicio estudiantil', CURRENT_TIMESTAMP);
+
+COMMIT;
+
+/*******************************************************************************
+ SISTEMA INTEGRAL GREEN TECH METRICS - UTN
+ MODULO II: MODELO DE EVALUACIÓN Y VERSIONAMIENTO (UI GREENMETRIC)
+ SCRIPT DE INSERCIÓN DE DATOS
+*******************************************************************************/
+
+------------------------------------------------------------
+-- 1. VERSIONES DE EVALUACIÓN
+------------------------------------------------------------
+INSERT INTO versiones_evaluacion (nombre, anio_referencia, es_activa, normativa_url, notas_cambio)
+VALUES ('UI GreenMetric Guideline 2024', 2024, 'S', 'https://greenmetric.ui.ac.id', 'Versión base utilizada por la UTN Ibarra para la evaluación institucional');
+
+------------------------------------------------------------
+-- 2. ESCALAS DE EVALUACIÓN (UNA POR INDICADOR ACTIVO)
+------------------------------------------------------------
+INSERT INTO escalas_evaluacion (id_indicador, id_version, tipo_escala, descripcion)
+SELECT i.id_indicador, v.id_version, 'RANGO_5_NIVELES', 'Escala estándar UI GreenMetric con niveles del 1 al 5'
+FROM indicadores i
+JOIN versiones_evaluacion v ON v.es_activa = 'S'
+WHERE i.estado = 'ACTIVO';
+
+------------------------------------------------------------
+-- 3. RANGOS DE EVALUACIÓN (5 POR CADA ESCALA)
+------------------------------------------------------------
+INSERT INTO rangos_evaluacion (id_escala, nivel, valor_minimo, valor_maximo, descripcion, puntaje_asignado)
+SELECT e.id_escala, r.nivel, r.valor_minimo, r.valor_maximo, r.descripcion, r.puntaje_asignado
+FROM escalas_evaluacion e
+JOIN (
+    SELECT 1 nivel, 0 valor_minimo, 20 valor_maximo, 'Nivel 1 - Muy bajo cumplimiento' descripcion, 20 puntaje_asignado FROM dual
+    UNION ALL
+    SELECT 2, 21, 40, 'Nivel 2 - Bajo cumplimiento', 40 FROM dual
+    UNION ALL
+    SELECT 3, 41, 60, 'Nivel 3 - Cumplimiento medio', 60 FROM dual
+    UNION ALL
+    SELECT 4, 61, 80, 'Nivel 4 - Alto cumplimiento', 80 FROM dual
+    UNION ALL
+    SELECT 5, 81, 100, 'Nivel 5 - Cumplimiento excelente', 100 FROM dual
+) r ON 1 = 1;
+
+------------------------------------------------------------
+-- 4. VINCULAR PERIODOS A LA VERSIÓN ACTIVA
+------------------------------------------------------------
+UPDATE periodos
+SET id_version = (SELECT id_version FROM versiones_evaluacion WHERE es_activa = 'S')
+WHERE id_version IS NULL;
+
+COMMIT;
+
+/*******************************************************************************
+ SISTEMA INTEGRAL GREEN TECH METRICS - UTN
+ MODULO 3: PROGRAMAS INSTITUCIONALES (POLÍTICAS Y ACCIONES)
+ SCRIPT DE INSERCIÓN DE DATOS
+*******************************************************************************/
+
+------------------------------------------------------------
+-- 1. TIPOS DE PROGRAMAS
+------------------------------------------------------------
+INSERT INTO tipos_programas (nombre, descripcion)
+VALUES ('Eficiencia Energética', 'Programas orientados a reducir el consumo energético y promover energías limpias');
+
+INSERT INTO tipos_programas (nombre, descripcion)
+VALUES ('Gestión Ambiental', 'Acciones de conservación, mitigación y protección ambiental');
+
+INSERT INTO tipos_programas (nombre, descripcion)
+VALUES ('Educación y Concientización', 'Programas educativos y campañas de sensibilización en sostenibilidad');
+
+INSERT INTO tipos_programas (nombre, descripcion)
+VALUES ('Infraestructura Sostenible', 'Mejoras físicas y tecnológicas del campus con enfoque sostenible');
+
+INSERT INTO tipos_programas (nombre, descripcion)
+VALUES ('Movilidad Sostenible', 'Iniciativas para reducir el impacto ambiental del transporte');
+
+------------------------------------------------------------
+-- 2. ESTADOS DE PROGRAMAS
+------------------------------------------------------------
+INSERT INTO estados_programas (nombre, descripcion)
+VALUES ('PLANIFICACION', 'Programa definido y aprobado, pendiente de ejecución');
+
+INSERT INTO estados_programas (nombre, descripcion)
+VALUES ('EJECUCION', 'Programa actualmente en desarrollo');
+
+INSERT INTO estados_programas (nombre, descripcion)
+VALUES ('SUSPENDIDO', 'Programa detenido temporalmente');
+
+INSERT INTO estados_programas (nombre, descripcion)
+VALUES ('FINALIZADO', 'Programa ejecutado y cerrado oficialmente');
+
+------------------------------------------------------------
+-- 3. PROGRAMAS INSTITUCIONALES (UTN IBARRA)
+------------------------------------------------------------
+INSERT INTO programas (id_tipo_programa, id_estado_prog, nombre, descripcion, objetivo_general, presupuesto_estimado, fecha_inicio, responsable_area)
+VALUES (
+    (SELECT id_tipo_programa FROM tipos_programas WHERE nombre = 'Eficiencia Energética'),
+    (SELECT id_estado_prog FROM estados_programas WHERE nombre = 'EJECUCION'),
+    'Programa de Optimización Energética UTN',
+    'Implementación de tecnologías eficientes y monitoreo del consumo eléctrico institucional.',
+    'Reducir el consumo energético per cápita del campus',
+    120000,
+    DATE '2023-01-15',
+    'Dirección Administrativa'
+);
+
+INSERT INTO programas (id_tipo_programa, id_estado_prog, nombre, descripcion, objetivo_general, presupuesto_estimado, fecha_inicio, responsable_area)
+VALUES (
+    (SELECT id_tipo_programa FROM tipos_programas WHERE nombre = 'Infraestructura Sostenible'),
+    (SELECT id_estado_prog FROM estados_programas WHERE nombre = 'EJECUCION'),
+    'Campus Verde UTN Ibarra',
+    'Incremento de áreas verdes, jardines y zonas de absorción hídrica.',
+    'Mejorar los indicadores de espacio abierto y biodiversidad',
+    95000,
+    DATE '2022-06-01',
+    'Unidad de Infraestructura'
+);
+
+INSERT INTO programas (id_tipo_programa, id_estado_prog, nombre, descripcion, objetivo_general, presupuesto_estimado, fecha_inicio, responsable_area)
+VALUES (
+    (SELECT id_tipo_programa FROM tipos_programas WHERE nombre = 'Educación y Concientización'),
+    (SELECT id_estado_prog FROM estados_programas WHERE nombre = 'EJECUCION'),
+    'Cultura Ambiental Universitaria',
+    'Capacitaciones, talleres y campañas de sostenibilidad para la comunidad universitaria.',
+    'Fortalecer la educación ambiental institucional',
+    30000,
+    DATE '2021-09-01',
+    'Vinculación con la Sociedad'
+);
+
+INSERT INTO programas (id_tipo_programa, id_estado_prog, nombre, descripcion, objetivo_general, presupuesto_estimado, fecha_inicio, responsable_area)
+VALUES (
+    (SELECT id_tipo_programa FROM tipos_programas WHERE nombre = 'Movilidad Sostenible'),
+    (SELECT id_estado_prog FROM estados_programas WHERE nombre = 'PLANIFICACION'),
+    'Plan de Movilidad Sostenible UTN',
+    'Promoción del uso de bicicletas, transporte institucional y reducción del parque automotor.',
+    'Reducir el uso de vehículos de combustión',
+    60000,
+    DATE '2024-01-01',
+    'Dirección de Bienestar Universitario'
+);
+
+------------------------------------------------------------
+-- 4. PROGRAMAS ↔ INDICADORES
+------------------------------------------------------------
+INSERT INTO programas_indicadores (id_programa, id_indicador, impacto_esperado)
+SELECT p.id_programa, i.id_indicador, 'Contribuye directamente a la mejora del indicador energético'
+FROM programas p
+JOIN indicadores i ON i.codigo IN ('EC4', 'EC5', 'EC2')
+WHERE p.nombre = 'Programa de Optimización Energética UTN';
+
+INSERT INTO programas_indicadores (id_programa, id_indicador, impacto_esperado)
+SELECT p.id_programa, i.id_indicador, 'Incrementa áreas verdes y capacidad de absorción'
+FROM programas p
+JOIN indicadores i ON i.codigo IN ('SI1', 'SI3', 'SI4')
+WHERE p.nombre = 'Campus Verde UTN Ibarra';
+
+INSERT INTO programas_indicadores (id_programa, id_indicador, impacto_esperado)
+SELECT p.id_programa, i.id_indicador, 'Fortalece la cultura y educación en sostenibilidad'
+FROM programas p
+JOIN indicadores i ON i.codigo IN ('ED1', 'ED4', 'ED5')
+WHERE p.nombre = 'Cultura Ambiental Universitaria';
+
+------------------------------------------------------------
+-- 5. PROGRAMAS ↔ CAMPUS
+------------------------------------------------------------
+INSERT INTO programas_campus (id_programa, id_campus, alcance_logrado)
+SELECT p.id_programa, c.id_campus, 'Todo el campus UTN Ibarra'
+FROM programas p
+JOIN campus c ON c.nombre LIKE '%Ibarra%';
+
+COMMIT;
+
+/*******************************************************************************
+ SISTEMA INTEGRAL GREEN TECH METRICS - UTN
+ MODULO 4.1: DATOS OPERATIVOS - POBLACIÓN UNIVERSITARIA
+ SCRIPT DE INSERCIÓN DE DATOS
+*******************************************************************************/
+
+------------------------------------------------------------
+-- 1. POBLACIÓN CONSOLIDADA POR CAMPUS Y PERIODO
+------------------------------------------------------------
+INSERT INTO poblaciones (id_campus, id_periodo, poblacion_total)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre LIKE '%Ibarra%'),
+    (SELECT id_periodo FROM periodos WHERE estado = 'EN_EVALUACION'),
+    8200
+);
+
+------------------------------------------------------------
+-- 2. DETALLE DE POBLACIÓN
+------------------------------------------------------------
+INSERT INTO detalles_poblacion (id_poblacion, categoria_pob, cantidad, descripcion)
+VALUES (
+    (SELECT id_poblacion FROM poblaciones p JOIN campus c ON p.id_campus = c.id_campus WHERE c.nombre LIKE '%Ibarra%'),
+    'Estudiantes',
+    7200,
+    'Estudiantes de pregrado y posgrado'
+);
+
+INSERT INTO detalles_poblacion (id_poblacion, categoria_pob, cantidad, descripcion)
+VALUES (
+    (SELECT id_poblacion FROM poblaciones p JOIN campus c ON p.id_campus = c.id_campus WHERE c.nombre LIKE '%Ibarra%'),
+    'Docentes',
+    650,
+    'Docentes a tiempo completo y parcial'
+);
+
+INSERT INTO detalles_poblacion (id_poblacion, categoria_pob, cantidad, descripcion)
+VALUES (
+    (SELECT id_poblacion FROM poblaciones p JOIN campus c ON p.id_campus = c.id_campus WHERE c.nombre LIKE '%Ibarra%'),
+    'Administrativos',
+    280,
+    'Personal administrativo institucional'
+);
+
+INSERT INTO detalles_poblacion (id_poblacion, categoria_pob, cantidad, descripcion)
+VALUES (
+    (SELECT id_poblacion FROM poblaciones p JOIN campus c ON p.id_campus = c.id_campus WHERE c.nombre LIKE '%Ibarra%'),
+    'Servicios',
+    70,
+    'Personal de limpieza, guardianía y mantenimiento'
+);
+
+------------------------------------------------------------
+-- 3. ESTUDIANTES (MUESTRA REPRESENTATIVA)
+------------------------------------------------------------
+INSERT INTO estudiantes (id_campus, codigo_matricula, facultad, carrera, nivel_estudio, genero)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre LIKE '%Ibarra%'),
+    'UTN-ING-SIS-0001',
+    'Facultad de Ingeniería',
+    'Ingeniería en Software',
+    'Pregrado',
+    'M'
+);
+
+INSERT INTO estudiantes (id_campus, codigo_matricula, facultad, carrera, nivel_estudio, genero)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre LIKE '%Ibarra%'),
+    'UTN-ADM-0002',
+    'Facultad Administrativa',
+    'Administración de Empresas',
+    'Pregrado',
+    'F'
+);
+
+INSERT INTO estudiantes (id_campus, codigo_matricula, facultad, carrera, nivel_estudio, genero)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre LIKE '%Ibarra%'),
+    'UTN-POS-AMB-0003',
+    'Facultad de Postgrado',
+    'Gestión Ambiental',
+    'Posgrado',
+    'M'
+);
+
+------------------------------------------------------------
+-- 4. PERSONALES (DOCENTES Y ADMINISTRATIVOS)
+------------------------------------------------------------
+INSERT INTO personales (id_campus, identificacion, nombre_completo, tipo_empleado, departamento, email_inst, fecha_ingreso)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre LIKE '%Ibarra%'),
+    '1002456789',
+    'Carlos Andrés Pérez',
+    'Docente Tiempo Completo',
+    'Facultad de Ingeniería',
+    'caperez@utn.edu.ec',
+    DATE '2016-09-15'
+);
+
+INSERT INTO personales (id_campus, identificacion, nombre_completo, tipo_empleado, departamento, email_inst, fecha_ingreso)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre LIKE '%Ibarra%'),
+    '1003678912',
+    'María Fernanda Gómez',
+    'Administrativo',
+    'Dirección Financiera',
+    'mfgomez@utn.edu.ec',
+    DATE '2018-03-01'
+);
+
+INSERT INTO personales (id_campus, identificacion, nombre_completo, tipo_empleado, departamento, email_inst, fecha_ingreso)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre LIKE '%Ibarra%'),
+    '1004987321',
+    'Luis Alberto Molina',
+    'Servicios',
+    'Mantenimiento',
+    'lamolina@utn.edu.ec',
+    DATE '2020-01-10'
+);
+
+COMMIT;
+
+-- Módulo 4.2 corregido: Solo INSERTs para presupuestos y presupuestos_sostenibilidad (asumiendo que las tablas ya existen)
+
+/*******************************************************************************
+ SISTEMA INTEGRAL GREEN TECH METRICS - UTN
+ MODULO 4.2: DATOS OPERATIVOS - GESTIÓN FINANCIERA (PRESUPUESTO)
+ *******************************************************************************/
+
+-- 20. PRESUPUESTOS (Presupuesto General de la Universidad)
+INSERT INTO presupuestos (id_universidad, id_periodo, monto_total_univ, moneda, fuente_financiamiento, fecha_aprobacion, estado_presupuesto, creado_el)
+VALUES (
+    (SELECT id_universidad FROM universidades WHERE siglas = 'UTN'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2024),
+    15000000.00,
+    'USD',
+    'Estatal y Recursos Propios',
+    DATE '2024-01-15',
+    'APROBADO',
+    CURRENT_TIMESTAMP
+);
+
+-- 21. PRESUPUESTOS_SOSTENIBILIDAD (Inversión específica GreenMetric)
+INSERT INTO presupuestos_sostenibilidad (id_presupuesto, id_categoria, monto_asignado, monto_ejecutado, descripcion_gasto, tipo_gasto, creado_el, actualizado_el)
+VALUES (
+    (SELECT id_presupuesto FROM presupuestos WHERE id_periodo = (SELECT id_periodo FROM periodos WHERE anio = 2024)),
+    1, -- Asumiendo id_categoria para Energía (ajusta según tu esquema)
+    500000.00,
+    450000.00,
+    'Instalación de paneles solares en campus',
+    'CAPEX',
+    CURRENT_TIMESTAMP,
+    NULL
+);
+
+INSERT INTO presupuestos_sostenibilidad (id_presupuesto, id_categoria, monto_asignado, monto_ejecutado, descripcion_gasto, tipo_gasto, creado_el, actualizado_el)
+VALUES (
+    (SELECT id_presupuesto FROM presupuestos WHERE id_periodo = (SELECT id_periodo FROM periodos WHERE anio = 2024)),
+    2, -- Asumiendo id_categoria para Agua (ajusta según tu esquema)
+    300000.00,
+    250000.00,
+    'Planta de tratamiento de aguas residuales',
+    'CAPEX',
+    CURRENT_TIMESTAMP,
+    NULL
+);
+
+INSERT INTO presupuestos_sostenibilidad (id_presupuesto, id_categoria, monto_asignado, monto_ejecutado, descripcion_gasto, tipo_gasto, creado_el, actualizado_el)
+VALUES (
+    (SELECT id_presupuesto FROM presupuestos WHERE id_periodo = (SELECT id_periodo FROM periodos WHERE anio = 2024)),
+    3, -- Asumiendo id_categoria para Residuos (ajusta según tu esquema)
+    200000.00,
+    180000.00,
+    'Sistema de reciclaje y compostaje',
+    'OPEX',
+    CURRENT_TIMESTAMP,
+    NULL
+);
+
+COMMIT;
+
+/*******************************************************************************
+ SISTEMA INTEGRAL GREEN TECH METRICS - UTN
+ MODULO 4.3: DATOS OPERATIVOS - ENERGÍA Y CLIMA (EC)
+ *******************************************************************************/
+
+------------------------------------------------------------
+-- 1. FACTORES DE EMISIÓN (MIXTURA ELÉCTRICA ECUADOR)
+------------------------------------------------------------
+-- Valores referenciales actualizados para huella de carbono
+INSERT INTO factores_emision (fuente_energia, valor_factor, unidad, anio_referencia)
+VALUES ('ELECTRICIDAD_RED', 0.385000, 'kgCO2/kWh', 2024);
+
+INSERT INTO factores_emision (fuente_energia, valor_factor, unidad, anio_referencia)
+VALUES ('DIESEL', 2.680000, 'kgCO2/Galon', 2024);
+
+INSERT INTO factores_emision (fuente_energia, valor_factor, unidad, anio_referencia)
+VALUES ('GLP', 1.510000, 'kgCO2/kg', 2024);
+
+------------------------------------------------------------
+-- 2. MEDIDORES ENERGÉTICOS (Conectados a Edificios Reales)
+------------------------------------------------------------
+-- Medidor FICA
+INSERT INTO medidores_energeticos (id_edificio, codigo_medidor, tipo_energia, marca_modelo, fecha_instalacion)
+VALUES (
+    (SELECT id_edificio FROM edificios WHERE codigo = 'FICA-01'), 
+    'ELEC-FICA-01', 
+    'ELECTRICIDAD', 
+    'Schneider PM5100', 
+    DATE '2020-03-15' 
+); 
+
+-- Medidor Edificio Central (Rectorado/Admin)
+INSERT INTO medidores_energeticos (id_edificio, codigo_medidor, tipo_energia, marca_modelo, fecha_instalacion)
+VALUES (
+    (SELECT id_edificio FROM edificios WHERE codigo = 'ADM-MAIN'), 
+    'ELEC-MAIN-001', 
+    'ELECTRICIDAD', 
+    'Siemens PAC3200', 
+    DATE '2018-01-01'
+);
+
+------------------------------------------------------------
+-- 3. CONSUMOS ENERGÉTICOS (Histórico y Actual)
+------------------------------------------------------------
+-- Enero 2024 - Medidor Principal
+INSERT INTO consumos_energeticos (id_medidor, id_periodo, mes, lectura_kwh, costo_estimado)
+VALUES (
+    (SELECT id_medidor FROM medidores_energeticos WHERE codigo_medidor = 'ELEC-MAIN-001'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2024),
+    1,
+    18500, -- Consumo promedio mensual estimado
+    1850.00 -- Costo aprox a $0.10/kWh tarifa pública
+);
+
+-- Febrero 2024 - Medidor Principal
+INSERT INTO consumos_energeticos (id_medidor, id_periodo, mes, lectura_kwh, costo_estimado)
+VALUES (
+    (SELECT id_medidor FROM medidores_energeticos WHERE codigo_medidor = 'ELEC-MAIN-001'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2024),
+    2,
+    17200,
+    1720.00
+);
+
+------------------------------------------------------------
+-- 4. FUENTES DE ENERGÍA RENOVABLE
+------------------------------------------------------------
+-- Basado en iniciativas de eficiencia mencionadas en reportes
+INSERT INTO fuentes_renovables (id_campus, tipo_fuente, capacidad_kw, produccion_anual_kwh, descripcion)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre = 'Campus El Olivo'),
+    'Fotovoltaica / Solar',
+    120,
+    165000,
+    'Sistemas piloto en laboratorios y alumbrado exterior solar.'
+);
+
+------------------------------------------------------------
+-- 5. EQUIPOS EFICIENTES (APPLIANCES)
+------------------------------------------------------------
+-- Reporte indica alto uso de iluminación eficiente
+INSERT INTO equipos_eficientes (id_edificio, tipo_equipo, cantidad, porcentaje_ahorro)
+VALUES (
+    (SELECT id_edificio FROM edificios WHERE codigo = 'ADM-MAIN'),
+    'Iluminación LED',
+    450,
+    35 -- % de ahorro comparado con fluorescente
+);
+
+------------------------------------------------------------
+-- 6. EDIFICIOS INTELIGENTES (SMART BUILDING)
+------------------------------------------------------------
+INSERT INTO detalles_smart_building (id_edificio, automatizacion_iluminacion, control_climatizacion, sensores_presencia, sistema_gestion_energia)
+VALUES (
+    (SELECT id_edificio FROM edificios WHERE codigo = 'FICA-01'), -- FICA suele tener labs automatizados
+    'S', -- Si tiene
+    'S', 
+    'S', 
+    'S'
+);
+
+------------------------------------------------------------
+-- 7. HUELLA DE CARBONO (Referencial)
+------------------------------------------------------------
+INSERT INTO huellas_carbono (id_campus, id_periodo, alcance_1, alcance_2, alcance_3)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre = 'Campus El Olivo'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2024),
+    185.40, -- Alcance 1: Combustibles directos
+    712.85, -- Alcance 2: Electricidad (Factor 0.385)
+    95.60   -- Alcance 3: Transporte/Residuos indirectos
+);
+
+COMMIT;
+
+/*******************************************************************************
+ SISTEMA INTEGRAL GREEN TECH METRICS - UTN
+ MODULO 4.4: DATOS OPERATIVOS - AGUA (WS) Y RESIDUOS (WR)
+ *******************************************************************************/
+
+-- ===============================
+-- 29. CONSUMOS DE AGUA (WS)
+-- ===============================
+INSERT INTO consumos_agua (id_campus, id_periodo, consumo_m3, agua_reciclada_m3, fuente_suministro, evidencia_url)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre = 'Campus El Olivo'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2023),
+    17850.50,
+    1950.00, -- Aprox 10-15% reciclado para riego
+    'Red pública municipal (EMAPA-I)',
+    'https://utn.edu.ec/gestion-ambiental/agua-2023.pdf'
+);
+
+INSERT INTO consumos_agua (id_campus, id_periodo, consumo_m3, agua_reciclada_m3, fuente_suministro, evidencia_url)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre = 'Campus El Olivo'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2024),
+    18420.75,
+    2300.00,
+    'Red pública municipal (EMAPA-I)',
+    'https://utn.edu.ec/gestion-ambiental/agua-2024.pdf'
+);
+
+-- ===============================
+-- 30. AGUAS RESIDUALES (WS3)
+-- ===============================
+INSERT INTO aguas_residuales (id_campus, sistema_tratamiento, porcentaje_tratado, estado_sistema)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre = 'Campus El Olivo'),
+    'Red de alcantarillado con pretratamiento',
+    100.00, -- Descarga a red municipal que trata el agua
+    'Operativo'
+);
+
+-- ===============================
+-- 31. RESIDUOS ORGÁNICOS (WR1)
+-- Ref: Reporte 2023/24 - "Tratamiento en Granjas Experimentales"
+-- ===============================
+INSERT INTO residuos_organicos (id_campus, id_periodo, toneladas_gen, toneladas_compost, metodo_tratamiento)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre = 'Campus El Olivo'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2023),
+    40.80, -- Toneladas generadas
+    20.40, -- 50% tratado (Según reporte: "entre 25 y 50%")
+    'Compostaje en Granjas Experimentales UTN'
+);
+
+INSERT INTO residuos_organicos (id_campus, id_periodo, toneladas_gen, toneladas_compost, metodo_tratamiento)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre = 'Campus El Olivo'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2024),
+    43.60,
+    21.80, -- 50% tratado
+    'Compostaje en Granjas Experimentales UTN'
+);
+
+-- ===============================
+-- 32. RESIDUOS INORGÁNICOS (RECICLAJE)
+-- Ref: Reporte 2024 - "Clasificación de botellas y papel"
+-- ===============================
+INSERT INTO residuos_inorganicos (id_campus, id_periodo, tipo_residuo, toneladas_recicladas, gestor_externo)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre = 'Campus El Olivo'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2024),
+    'Papel y Cartón',
+    18.90,
+    'Gestor Ambiental Autorizado'
+);
+
+INSERT INTO residuos_inorganicos (id_campus, id_periodo, tipo_residuo, toneladas_recicladas, gestor_externo)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre = 'Campus El Olivo'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2024),
+    'Plástico (PET)',
+    12.40,
+    'Reciclaje Local / GAD Ibarra'
+);
+
+-- ===============================
+-- 33. RESIDUOS PELIGROSOS (WR)
+-- Ref: Reporte 2022/24 - "Gestión mediante gestores autorizados"
+-- ===============================
+INSERT INTO residuos_peligrosos (id_campus, id_periodo, categoria, toneladas_gen, metodo_disposicion)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre = 'Campus El Olivo'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2024),
+    'Desechos Electrónicos (RAEE)',
+    3.60,
+    'Gestor Autorizado MAATE'
+);
+
+INSERT INTO residuos_peligrosos (id_campus, id_periodo, categoria, toneladas_gen, metodo_disposicion)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre = 'Campus El Olivo'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2024),
+    'Químicos de Laboratorio',
+    1.40,
+    'Incineración controlada (Gestor)'
+);
+
+COMMIT;
+
+/*******************************************************************************
+ SISTEMA INTEGRAL GREEN TECH METRICS - UTN
+ MODULO 4.5: DATOS OPERATIVOS - TRANSPORTE Y MOVILIDAD (TR)
+ SOLO INSERTS – DATOS REFERENCIALES UTN
+*******************************************************************************/
+
+/*******************************************************************************
+ SISTEMA INTEGRAL GREEN TECH METRICS - UTN
+ MODULO 4.5: DATOS OPERATIVOS - TRANSPORTE (TR)
+ *******************************************************************************/
+
+-- ===============================
+-- 34. VEHÍCULOS (Flota Institucional)
+-- ===============================
+INSERT INTO vehiculos (id_universidad, placa, tipo_vehiculo, tipo_motor, marca_modelo, anio_fabricacion, estado)
+VALUES (
+    (SELECT id_universidad FROM universidades WHERE siglas = 'UTN'),
+    'IAB-BUS-01', -- Placa genérica administrativa
+    'Bus Institucional',
+    'Diesel',
+    'Hino AK',
+    2015,
+    'ACTIVO'
+);
+
+INSERT INTO vehiculos (id_universidad, placa, tipo_vehiculo, tipo_motor, marca_modelo, anio_fabricacion, estado)
+VALUES (
+    (SELECT id_universidad FROM universidades WHERE siglas = 'UTN'),
+    'IAB-CAM-02',
+    'Camioneta',
+    'Gasolina',
+    'Toyota Hilux',
+    2019,
+    'ACTIVO'
+);
+
+-- Vehículo Cero Emisiones (Piloto/Administrativo)
+INSERT INTO vehiculos (id_universidad, placa, tipo_vehiculo, tipo_motor, marca_modelo, anio_fabricacion, estado)
+VALUES (
+    (SELECT id_universidad FROM universidades WHERE siglas = 'UTN'),
+    'IAB-ELEC-01',
+    'Auto',
+    'Eléctrico',
+    'Nissan Leaf',
+    2022,
+    'ACTIVO'
+);
+
+-- ===============================
+-- 35. INGRESOS VEHICULARES (TR1)
+-- Ref: Reporte menciona políticas de reducción de autos
+-- ===============================
+INSERT INTO ingresos_vehiculares (id_campus, id_periodo, tipo_usuario, promedio_autos_dia, promedio_motos_dia, metodo_conteo)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre = 'Campus El Olivo'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2023),
+    'Estudiantes',
+    820,
+    460,
+    'Conteo en garitas principales (Estimado)'
+);
+
+INSERT INTO ingresos_vehiculares (id_campus, id_periodo, tipo_usuario, promedio_autos_dia, promedio_motos_dia, metodo_conteo)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre = 'Campus El Olivo'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2023),
+    'Personal y Docentes',
+    210,
+    85,
+    'Registro biométrico vehicular'
+);
+
+INSERT INTO ingresos_vehiculares (id_campus, id_periodo, tipo_usuario, promedio_autos_dia, promedio_motos_dia, metodo_conteo)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre = 'Campus El Olivo'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2024),
+    'Estudiantes',
+    780, -- Ligera reducción por iniciativas de movilidad
+    430,
+    'Conteo en garitas principales (Estimado)'
+);
+
+INSERT INTO ingresos_vehiculares (id_campus, id_periodo, tipo_usuario, promedio_autos_dia, promedio_motos_dia, metodo_conteo)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre = 'Campus El Olivo'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2024),
+    'Personal y Docentes',
+    195,
+    80,
+    'Registro biométrico vehicular'
+);
+
+-- ===============================
+-- 36. MOVILIDADES E INFRAESTRUCTURA (TR4, TR5)
+-- Ref: Reporte "Espacios Verdes e Infraestructura"
+-- ===============================
+INSERT INTO movilidades (id_campus, tipo_infra, extension_m, es_inclusivo, estado_mantenimiento)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre = 'Campus El Olivo'),
+    'Senda Peatonal Principal',
+    1450.00,
+    'S', -- Inclusivo (Rampas/Accesos)
+    'Bueno'
+);
+
+INSERT INTO movilidades (id_campus, tipo_infra, extension_m, es_inclusivo, estado_mantenimiento)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre = 'Campus El Olivo'),
+    'Ciclovía Interna Compartida',
+    620.00,
+    'N', -- Compartida con peatones en tramos
+    'Bueno'
+);
+
+INSERT INTO movilidades (id_campus, tipo_infra, extension_m, es_inclusivo, estado_mantenimiento)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre = 'Campus El Olivo'),
+    'Estacionamiento de Bicicletas',
+    80, -- Metros cuadrados o capacidad
+    'N',
+    'Regular'
+);
+
+-- ===============================
+-- 37. SERVICIOS DE TRANSPORTE (TR2)
+-- ===============================
+INSERT INTO servicios_transporte (id_campus, nombre_ruta, capacidad_pax, frecuencia_diaria, es_gratuito, es_cero_emision)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre = 'Campus El Olivo'),
+    'Ruta Ibarra Centro – Campus',
+    45, -- Bus grande
+    12,
+    'S', -- Gratuito para estudiantes
+    'N'
+);
+
+INSERT INTO servicios_transporte (id_campus, nombre_ruta, capacidad_pax, frecuencia_diaria, es_gratuito, es_cero_emision)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre = 'Campus El Olivo'),
+    'Ruta Terminal Terrestre – Campus',
+    45,
+    8,
+    'S',
+    'N'
+);
+
+-- ===============================
+-- 38. INICIATIVAS DE MOVILIDAD (TR7)
+-- ===============================
+INSERT INTO iniciativas_movilidad (id_universidad, id_periodo, nombre_programa, descripcion, impacto_estimado, evidencia_url)
+VALUES (
+    (SELECT id_universidad FROM universidades WHERE siglas = 'UTN'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2023),
+    'Día Institucional Sin Auto',
+    'Restricción de ingreso vehicular particular para fomentar caminata y bicicleta.',
+    'Reducción del 80% de tráfico interno en jornada.',
+    'https://utn.edu.ec/sostenibilidad/movilidad-2023.pdf'
+);
+
+INSERT INTO iniciativas_movilidad (id_universidad, id_periodo, nombre_programa, descripcion, impacto_estimado, evidencia_url)
+VALUES (
+    (SELECT id_universidad FROM universidades WHERE siglas = 'UTN'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2024),
+    'Campaña: Tu Bici, Tu Salud',
+    'Fomento al uso de bicicleta con instalación de nuevos parqueaderos seguros.',
+    'Incremento del 5% en uso de bicicletas.',
+    'https://utn.edu.ec/sostenibilidad/movilidad-2024.pdf'
+);
+
+COMMIT;
+
+/*******************************************************************************
+ SISTEMA INTEGRAL GREEN TECH METRICS - UTN
+ MODULO 4.6: DATOS OPERATIVOS - EDUCACIÓN Y SOCIEDAD (ED)
+ Ref: Reporte 2024 -> 210 Cursos (11.5%), $376k Investigación
+ *******************************************************************************/
+
+-- ===============================
+-- 40. CURSOS (ED1) - Muestra representativa
+-- (Total real según reporte: 210 cursos de 1814)
+-- ===============================
+INSERT INTO cursos (id_universidad, codigo_curso, nombre_curso, es_sostenibilidad, descripcion_ods, facultad)
+VALUES (
+    (SELECT id_universidad FROM universidades WHERE siglas = 'UTN'),
+    'FICAYA-AMB-01',
+    'Manejo de Recursos Naturales',
+    'S',
+    'ODS 15 - Vida de Ecosistemas Terrestres',
+    'Ingeniería en Ciencias Agropecuarias y Ambientales' -- Facultad corregida
+);
+
+INSERT INTO cursos (id_universidad, codigo_curso, nombre_curso, es_sostenibilidad, descripcion_ods, facultad)
+VALUES (
+    (SELECT id_universidad FROM universidades WHERE siglas = 'UTN'),
+    'FICA-ERG-02',
+    'Energías Renovables y Eficiencia',
+    'S',
+    'ODS 7 - Energía Asequible y No Contaminante',
+    'FICA - Ingeniería'
+);
+
+INSERT INTO cursos (id_universidad, codigo_curso, nombre_curso, es_sostenibilidad, descripcion_ods, facultad)
+VALUES (
+    (SELECT id_universidad FROM universidades WHERE siglas = 'UTN'),
+    'FCAE-RSE-03',
+    'Responsabilidad Social Corporativa',
+    'S',
+    'ODS 12 - Producción y Consumo Responsables',
+    'FCAE - Administrativas'
+);
+
+-- ===============================
+-- 41. INVESTIGACIÓN (ED4/ED5)
+-- Ref: Reporte 2024 -> Promedio $376,356.26 (76% del presupuesto)
+-- Temas: Agua, Energía, Cambio Climático
+-- ===============================
+
+INSERT INTO investigaciones (id_universidad, id_periodo, titulo, monto_financiamiento, es_sostenibilidad, fuente_fondos, estado)
+VALUES (
+    (SELECT id_universidad FROM universidades WHERE siglas = 'UTN'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2024),
+    'Gestión Hídrica y Calidad de Agua en Cuencas Andinas',
+    120000.00, -- Monto ajustado para reflejar el presupuesto real alto
+    'S',
+    'Fondos UTN / Cooperación Internacional',
+    'EN EJECUCION'
+);
+
+INSERT INTO investigaciones (id_universidad, id_periodo, titulo, monto_financiamiento, es_sostenibilidad, fuente_fondos, estado)
+VALUES (
+    (SELECT id_universidad FROM universidades WHERE siglas = 'UTN'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2024),
+    'Prototipos de Eficiencia Energética para Edificios Públicos',
+    95000.00,
+    'S',
+    'SENESCYT / UTN',
+    'EN EJECUCION'
+);
+
+INSERT INTO investigaciones (id_universidad, id_periodo, titulo, monto_financiamiento, es_sostenibilidad, fuente_fondos, estado)
+VALUES (
+    (SELECT id_universidad FROM universidades WHERE siglas = 'UTN'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2023),
+    'Bioeconomía y Desarrollo Sostenible Local',
+    80243.63, -- Ajuste para cuadrar cifras históricas
+    'S',
+    'Fondos Internos UTN',
+    'FINALIZADO'
+);
+
+-- Investigación NO Sostenible (Control)
+INSERT INTO investigaciones (id_universidad, id_periodo, titulo, monto_financiamiento, es_sostenibilidad, fuente_fondos, estado)
+VALUES (
+    (SELECT id_universidad FROM universidades WHERE siglas = 'UTN'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2024),
+    'Optimización de Algoritmos de Base de Datos',
+    25000.00,
+    'N',
+    'Fondos Internos UTN',
+    'EN EJECUCION'
+);
+
+COMMIT;
+
+/*******************************************************************************
+ SISTEMA INTEGRAL GREEN TECH METRICS - UTN
+ MODULO 4.6 (CONT.): INVESTIGACIÓN, EVENTOS Y RESULTADOS
+ *******************************************************************************/
+
+-- ===============================
+-- 44. PUBLICACIONES (ED3)
+-- Ref: Reporte 2024 -> Promedio de 39 publicaciones anuales (2021-2023)
+-- ===============================
+INSERT INTO publicaciones (id_investigacion, id_personal, doi, titulo_paper, revista_indexada, anio_publicacion, url_evidencia)
+VALUES (
+    (SELECT id_investigacion FROM investigaciones WHERE titulo LIKE '%Hídrica%'),
+    (SELECT id_personal FROM personales WHERE identificacion = '1002456789'),
+    '10.1016/j.envres.2023.112345',
+    'Water resource management and sustainability in North-Ecuadorian Highlands',
+    'Environmental Research Journal',
+    2023,
+    'https://repositorio.utn.edu.ec/handle/123456789/1'
+);
+
+INSERT INTO publicaciones (id_investigacion, id_personal, doi, titulo_paper, revista_indexada, anio_publicacion, url_evidencia)
+VALUES (
+    (SELECT id_investigacion FROM investigaciones WHERE titulo LIKE '%Energética%'),
+    (SELECT id_personal FROM personales WHERE identificacion = '1003678912'),
+    '10.3390/en15031234',
+    'Energy efficiency metrics for sustainable university campuses',
+    'Energies (MDPI)',
+    2024,
+    'https://repositorio.utn.edu.ec/handle/123456789/2'
+);
+
+-- ===============================
+-- 45/46/47. EVENTOS DE SOSTENIBILIDAD (ED4, ED5, ED8)
+-- Ref: Reporte -> Promedio de 7 eventos anuales
+-- ===============================
+INSERT INTO eventos_sostenibilidad (id_campus, id_periodo, tipo_evento, nombre_evento, organizador, asistentes_estimados, fecha_realizacion)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre = 'Campus El Olivo'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2023),
+    'Semana Ambiental',
+    'Semana de la Sostenibilidad UTN 2023',
+    'Facultad de Ciencias Agropecuarias y Ambientales',
+    350,
+    DATE '2023-06-05'
+);
+
+INSERT INTO eventos_sostenibilidad (id_campus, id_periodo, tipo_evento, nombre_evento, organizador, asistentes_estimados, fecha_realizacion)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre = 'Campus El Olivo'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2024),
+    'Taller Participativo',
+    'Capacitación en Manejo de Residuos Orgánicos',
+    'Unidad de Sustentabilidad Universitaria',
+    120,
+    DATE '2024-03-18'
+);
+
+INSERT INTO eventos_sostenibilidad (id_campus, id_periodo, tipo_evento, nombre_evento, organizador, asistentes_estimados, fecha_realizacion)
+VALUES (
+    (SELECT id_campus FROM campus WHERE nombre = 'Campus El Olivo'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2024),
+    'Actividad Estudiantil',
+    'Siembratón Universitaria: Reforestación de zonas aledañas',
+    'FEUE UTN / Carrera de Ing. Forestal',
+    200,
+    DATE '2024-11-10'
+);
+
+-- ===============================
+-- 49. STARTUPS / PROYECTOS DE INCUBACIÓN (ED11)
+-- Ref: Fomento a la innovación según Plan Estratégico UTN
+-- ===============================
+INSERT INTO startups_sostenibles (id_universidad, nombre_startup, sector_economico, descripcion_impacto, fecha_incubacion, estado_actual)
+VALUES (
+    (SELECT id_universidad FROM universidades WHERE siglas = 'UTN'),
+    'EcoTech Andina (Spin-off)',
+    'Gestión de Residuos',
+    'Desarrollo de prototipos para clasificación automatizada de residuos sólidos.',
+    DATE '2023-09-01',
+    'ACTIVA'
+);
+
+INSERT INTO startups_sostenibles (id_universidad, nombre_startup, sector_economico, descripcion_impacto, fecha_incubacion, estado_actual)
+VALUES (
+    (SELECT id_universidad FROM universidades WHERE siglas = 'UTN'),
+    'AgroSmart-UTN Solutions',
+    'Agrotech / Sostenibilidad',
+    'Sistemas de riego inteligente para optimizar el consumo de agua en granjas.',
+    DATE '2024-04-15',
+    'INCUBACION'
+);
+
+-- ===============================
+-- 50. GRADUADOS – IMPACTO Y EMPLEOS VERDES (ED12)
+-- Basado en perfiles de Ingeniería Ambiental y Forestal
+-- ===============================
+INSERT INTO graduados_impacto (id_estudiante, id_periodo, empresa_empleo, es_empleo_verde, cargo)
+VALUES (
+    (SELECT id_estudiante FROM estudiantes WHERE codigo_matricula = 'UTN-ING-SIS-0001'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2023),
+    'Municipio de Ibarra (Gestión Ambiental)',
+    'S',
+    'Analista de Monitoreo Ambiental'
+);
+
+INSERT INTO graduados_impacto (id_estudiante, id_periodo, empresa_empleo, es_empleo_verde, cargo)
+VALUES (
+    (SELECT id_estudiante FROM estudiantes WHERE codigo_matricula = 'UTN-ADM-0002'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2024),
+    'Empresa Pública de Aguas Ibarra (EMAPA-I)',
+    'S',
+    'Supervisor de Planta de Tratamiento'
+);
+
+INSERT INTO graduados_impacto (id_estudiante, id_periodo, empresa_empleo, es_empleo_verde, cargo)
+VALUES (
+    (SELECT id_estudiante FROM estudiantes WHERE codigo_matricula = 'UTN-POS-AMB-0003'),
+    (SELECT id_periodo FROM periodos WHERE anio = 2024),
+    'Consultora Ambiental Privada',
+    'S',
+    'Consultor Senior en Huella de Carbono'
+);
+
+COMMIT;
